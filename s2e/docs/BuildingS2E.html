@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.6: http://docutils.sourceforge.net/" />
+<title>Building the S2E Platform</title>
+<link rel="stylesheet" href="./s2e.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="building-the-s2e-platform">
+<h1 class="title">Building the S2E Platform</h1>
+
+<p>The following steps describe the installation process in detail. We assume the installation
+is performed on an Ubuntu 10.10 64-bit host system (S2E also works on 64-bit Mac systems).</p>
+<p>Build instructions for Windows x64 can be found <a class="reference external" href="BuildingS2EWindows.html">here</a>.</p>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#required-packages" id="id2">Required Packages</a></li>
+<li><a class="reference internal" href="#checking-out-s2e" id="id3">Checking out S2E</a></li>
+<li><a class="reference internal" href="#building-s2e" id="id4">Building S2E</a></li>
+<li><a class="reference internal" href="#updating-s2e" id="id5">Updating S2E</a></li>
+<li><a class="reference internal" href="#rebuilding-s2e-documentation" id="id6">Rebuilding S2E Documentation</a></li>
+</ul>
+</div>
+<div class="section" id="required-packages">
+<h1>Required Packages</h1>
+<pre class="literal-block">
+$ sudo apt-get install build-essential
+$ sudo apt-get install subversion
+$ sudo apt-get install git
+$ sudo apt-get install gettext
+$ sudo apt-get install liblua5.1-dev
+$ sudo apt-get install libsdl1.2-dev
+$ sudo apt-get install libsigc++-2.0-dev
+$ sudo apt-get install binutils-dev
+$ sudo apt-get install python-docutils
+$ sudo apt-get install python-pygments
+$ sudo apt-get install nasm
+</pre>
+<p>The following commands ask <tt class="docutils literal"><span class="pre">apt-get</span></tt> to install build dependencies for llvm-2.7
+and qemu. We install the build dependencies for llvm-2.7 instead of llvm-3.0
+(which is used by S2E) because both of them have almost identical build
+dependencies but llvm-3.0 is not available on Ubuntu 10.10:</p>
+<pre class="literal-block">
+$ sudo apt-get build-dep llvm-2.7
+$ sudo apt-get build-dep qemu
+</pre>
+</div>
+<div class="section" id="checking-out-s2e">
+<h1>Checking out S2E</h1>
+<p>S2E source code can be obtained from the S2E GIT repository using the
+following commands:</p>
+<pre class="literal-block">
+$ cd $S2EDIR
+$ git clone https://dslabgit.epfl.ch/git/s2e/s2e.git
+</pre>
+<p>Alternatively, you can obtain an account on <a class="reference external" href="https://dslabgit.epfl.ch">https://dslabgit.epfl.ch</a> and
+upload your public SSH key to it. If you do not have an SSH key yet,
+generate it with the following command:</p>
+<pre class="literal-block">
+$ ssh-keygen -t rsa -C you&#64;email
+&gt; answer questions: store key to default location, optionally set password for it
+</pre>
+<p>To upload your key, go to <a class="reference external" href="https://dslabgit.epfl.ch">https://dslabgit.epfl.ch</a> -&gt; Dashboard -&gt; Manage SSH
+keys -&gt; Add SSH key, then copy the content of your ~/.ssh/id_rsa.pub, paste it
+into the form, and then press save. Your key is activated within a few moments.
+Then, checkout S2E as follows:</p>
+<pre class="literal-block">
+$ cd $S2EDIR
+$ git clone git&#64;dslabgit.epfl.ch:s2e/s2e.git
+</pre>
+<p>You can find more information about using git on <a class="reference external" href="http://gitref.org/">http://gitref.org/</a> or on
+<a class="reference external" href="http://progit.org/">http://progit.org/</a>.</p>
+<p>In order to report bugs, please use <a class="reference external" href="https://dslabredmine.epfl.ch">https://dslabredmine.epfl.ch</a>. If you would like
+to contribute to S2E, please create your own personal clone of S2E on
+<a class="reference external" href="https://dslabgit.epfl.ch/s2e/s2e">https://dslabgit.epfl.ch/s2e/s2e</a>, push your changes to it and then send us a
+merge request.</p>
+</div>
+<div class="section" id="building-s2e">
+<h1>Building S2E</h1>
+<p>The recommended method of building S2E is using the S2E Makefile:</p>
+<pre class="literal-block">
+$ mkdir $S2EDIR/build
+$ cd $S2EDIR/build
+$ ln -s ../s2e/Makefile .
+$ make
+&gt; Go make some coffee, this will take a lot of time
+</pre>
+<p>By default, the <tt class="docutils literal">make</tt> command compiles S2E in release mode. The resulting
+binary is placed in <tt class="docutils literal"><span class="pre">$S2EDIR/build/qemu-release/i386-s2e-softmmu/qemu-system-i386</span></tt>.
+To compile in Debug mode, use <tt class="docutils literal">make <span class="pre">all-debug</span></tt>. The makefile automatically
+uses the maximum number of available processors in order to speed up compilation.</p>
+<p>You can also build each component of S2E manually, as described in <a class="reference external" href="BuildingS2EManually.html">Building
+the S2E Framework Manually</a>.</p>
+</div>
+<div class="section" id="updating-s2e">
+<h1>Updating S2E</h1>
+<p>You can use the same make file to recompile S2E either when changing it
+yourself or when pulling new versions through <tt class="docutils literal">git</tt>. Note that the makefile
+will not automatically reconfigure the packages; for deep changes you might need
+to either start from scratch by issuing <tt class="docutils literal">make clean</tt> or to force
+the reconfiguration of specific modules by deleting  the corresponding files from
+the <tt class="docutils literal">stamps</tt> subdirectory.</p>
+</div>
+<div class="section" id="rebuilding-s2e-documentation">
+<h1>Rebuilding S2E Documentation</h1>
+<p>The S2E documentation is written in <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> format. For convenience, we also
+keep generated HTML files in the repository. Never change HTML files
+manually and always recompile them (by invoking <tt class="docutils literal">make</tt> in the docs folder)
+after changing any <tt class="docutils literal">RST</tt> files.</p>
+</div>
+</div>
+<div class="footer">
+<hr class="footer" />
+<a class="reference external" href="BuildingS2E.rst">View document source</a>.
+
+</div>
+</body>
+</html>
