@@ -89,7 +89,7 @@ This section discusses how to set up a new driver to test with SymDrive. The ide
 
 1. Verify that __/root/cil, /root/gtf, /root/test__ all contain the files that you extracted outside the chroot environment. If they don't, the directories are not being mounted in the jail properly and you should examine the debian32.sh script.
 
-1. __(This step has problem)__ Run __./make.sh__ lp5523 from within __/root/test__. Odds are this will fail for some reason, but if you're lucky and things are set up correctly, then it will succeed. Contact us if it fails and you can't resolve the problem and we can help. The last two lines of output (saved to output.txt) should read:
+1. __(This step has problem)__ Run __./make.sh lp5523__ within __/root/test__. Odds are this will fail for some reason, but if you're lucky and things are set up correctly, then it will succeed. Contact us if it fails and you can't resolve the problem and we can help. The last two lines of output (saved to output.txt) should read:
 
     __cat lp5523/output.txt | grep undefined__
 
