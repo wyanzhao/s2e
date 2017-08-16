@@ -6,8 +6,9 @@ In our SymDrive setup, we use Ubuntu 12.04 x64, and the instructions here assume
 
 SymDrive uses a specific version of S2E. We would like to integrate as much as possible of SymDrive with S2E, but time constraints currently preclude this approach. In addition, SymDrive currently breaks some existing S2E functionality, which we would need to fix before being able to merge it. We hope to fix these problems in the future.
 
-1. Install git using __sudo apt-get install git__.
-1. Check out S2E using __git clone https://github.com/wyz7155/SymDrive.git__.
+1. Install git using __sudo apt-get install git__
+1. __cd ~__
+1. Check out S2E using __git clone https://github.com/wyz7155/SymDrive.git__
 1. Once the clone is finished, be sure you've installed all the packages listed on the S2E site as necessary to build S2E.
 
     __$ sudo apt-get install build-essential subversion gettext liblua5.1-0-dev libsdl1.2-dev libsigc++-2.0-dev binutils-dev python-docutils python-pygments nasm__
@@ -33,7 +34,7 @@ Now, __if compilation fails__, first try running make several times to ensure th
 The S2E website also includes information of setting up a 32-bit chroot jail. The purpose of this step is to simplify compilation of 32-bit kernel binaries on what is otherwise a 64-bit OS. SymDrive and S2E both work only with 32-bit guest operating systems, so to compile a driver for testing with SymDrive, the jail is necessary.
 
 1. __sudo apt-get install debootstrap__.
-1. Create the directory with the chroot environment: __mkdir ~/s2e/symdrive && mkdir ~/s2e/symdrive/debian32.__
+1. Create the directory with the chroot environment: __mkdir ~/s2e/symdrive/debian32__.
 1. Create the basic chroot environment. Pay attention to --arch __i386!__ It is crucial for correct compilation.
     1. __cd ~/s2e/symdrive/__
     1. __sudo debootstrap --arch i386 squeeze ./debian32 http://archive.debian.org/debian__
