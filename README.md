@@ -7,7 +7,7 @@ In our SymDrive setup, we use Ubuntu 12.04 x64, and the instructions here assume
 SymDrive uses a specific version of S2E. We would like to integrate as much as possible of SymDrive with S2E, but time constraints currently preclude this approach. In addition, SymDrive currently breaks some existing S2E functionality, which we would need to fix before being able to merge it. We hope to fix these problems in the future.
 
 1. Install git using __sudo apt-get install git__
-1. __cd ~__
+1. cd ~
 1. Check out S2E using __git clone https://github.com/wyz7155/SymDrive.git__
 1. Once the clone is finished, be sure you've installed all the packages listed on the S2E site as necessary to build S2E.
 
